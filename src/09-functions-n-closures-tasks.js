@@ -63,22 +63,31 @@ function getPowerFunction(exponent) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
-  /*   const isUndef = (n) => n === undefined;
-  return function fn(a, b, c) {
-    console.log(a, b, c);
-    if (isUndef(a) && isUndef(b) && isUndef(c)) {
-      return null;
+function getPolynom(...args) {
+  if (args === 0) {
+    return null;
+  }
+  const x1 = args.length >= 1 ? args[0] : 0;
+  const x2 = args.length >= 2 ? args[1] : 0;
+  const x3 = args.length >= 3 ? args[2] : 0;
+  return function fn(x) {
+    let a = 0;
+    let b = 0;
+    let c = 0;
+    if (args.length === 1) {
+      c = x1;
     }
-    if (isUndef(b) && isUndef(c)) {
-      return a;
+    if (args.length === 2) {
+      b = x1;
+      c = x2;
     }
-    if (isUndef(c)) {
-      return a;
+    if (args.length === 3) {
+      a = x1;
+      b = x2;
+      c = x3;
     }
-    return a;
-  }; */
+    return (a * (x ** 2)) + (b * x) + c;
+  };
 }
 
 /**
@@ -164,15 +173,16 @@ function retry(func, attempts) {
  * cos(3.141592653589793) ends
  *
  */
-function logger(/* func, logFunc */) {
-  throw new Error('Not implemented');
-  /*   return function fn(arg) {
-    const start = `${func.name}(${arg}) starts`;
-    const end = `${func.name}(${arg}) ends`;
-    const res = `${logFunc(start)} ${logFunc(end)}`;
-    console.log(res);
+function logger(func, logFunc) {
+  return function fn(...arg) {
+    const argStr = arg.map((v) => JSON.stringify(v)).join();
+    const start = `${func.name}(${argStr}) starts`;
+    const end = `${func.name}(${argStr}) ends`;
+    logFunc(start);
+    const res = func(...arg);
+    logFunc(end);
     return res;
-  }; */
+  };
 }
 
 /**
